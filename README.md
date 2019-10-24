@@ -3,29 +3,15 @@ The Bluetooth Device Service connects Bluetooth
 devices with EdgeX. The Device Service
 currently limited to Bluetooth GATT devices/profiles.
 
-## Dependencies
-
-- [Device-C-SDK](https://github.com/edgexfoundry/device-sdk-c) -
-The device c sdk provides a framework for building
-EdgeX Device Services in C.
-
-- [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) -
-D-Bus is an Inter-Process Communication (IPC) and
-Remote Procedure Calling (RPC) mechanism
-specifically designed for efficient and easy-to-use
-communication between processes running on the same
-machine.
-
 ## Prerequisites
-- [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) -
-D-Bus daemon is required to be running on the host machine
-alongside the Device Service to allow communication
-between the Bluetooth Device Service and the BlueZ daemon.
- 
-- [BlueZ](http://www.bluez.org/) -
-BlueZ Linux module is required to be installed on the host
-machine. This allows the connection between the Device Service
-and Bluetooth devices using D-Bus.
+- A Linux build host.
+- [GCC][gcc] that supports C11.
+- [Make][make] version 4.1.
+- [CMake][cmake] version 3.1 or greater.
+- [Cbor][libcbor] version 0.5.
+- [Device-C-SDK][device-c-sdk] version 1.0.0 or greater.
+- [D-Bus][dbus] version 1.12.2.
+- [BlueZ][bluez] version 5.48.
 
 ## Configuration File
 
@@ -78,10 +64,23 @@ To build a local version of the Device Service,
 clone the repository and run the following
 shell commands.
 
+Before building the device service, please
+ensure that you have the EdgeX C-SDK installed and
+make sure that the current directory is the device
+service directory (device-bluetooth-c). To build
+the device service, enter the command below into
+the command line to run the build script.
+
 ```shell
-$ cd device-bluetooth-c
 $ ./scripts/build.sh
 ```
+
+In the event that your C-SDK is not installed in the
+system default paths, you may specify its location
+using the environment variable CSDK_DIR.
+
+After having built the device service, the executable
+can be found at `build/{debug,release}/device-bluetooth-c/device-bluetooth-c`.
 
 ## Run
 After successfully building the Device Service,
@@ -138,3 +137,11 @@ $ docker run \
   -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
   --privileged -p 49971:49971 device-bluetooth
 ```
+
+[libcbor]: https://github.com/PJK/libcbor
+[device-c-sdk]: https://github.com/edgexfoundry/device-sdk-c
+[dbus]: https://www.freedesktop.org/wiki/Software/dbus/
+[bluez]: http://www.bluez.org/
+[make]: https://www.gnu.org/software/make/
+[cmake]: https://cmake.org/
+[gcc]: https://gcc.gnu.org/
